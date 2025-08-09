@@ -1,0 +1,24 @@
+You are a senior software engineer with extensive expertise in developing high-performance file analysis and management systems. I would like to leverage your deep technical knowledge to design a robust and efficient file categorization program that meets the following specifications:  
+
+- **Language & Framework Selection**:  
+  - Recommend the optimal programming language (C#, C++, or Python with an advanced library) based on performance, maintainability, and ease of implementation.  
+  - Justify your choice with considerations such as file I/O efficiency, multithreading capabilities, and cross-platform compatibility.  
+
+- **File Categorization Logic**:  
+  - Implement a dynamic file type detection system that accurately identifies and groups files by their extensions (e.g., JPG, MP4, TXT).  
+  - Include specialized handling for SMS-related files (e.g., XML, CSV, or proprietary formats) with customizable parsing rules.  
+  - Ensure the system can recursively scan directories and subdirectories for comprehensive analysis.  
+
+- **Reporting & Output**:  
+  - Generate a structured report (CSV, JSON, or formatted text) summarizing file counts, categories, and storage distribution.  
+  - Include metadata such as file sizes, last modified dates, and potential duplicates for enhanced insights.  
+  - Provide optional visualizations (charts, graphs) if Python is selected for richer reporting.  
+
+- **Error Handling & Optimization**:  
+  - Implement robust exception handling for corrupted files, permission issues, and unsupported formats.  
+  - Optimize performance for large datasets through efficient memory management and parallel processing.  
+
+- **User Interface (Optional)**:  
+  - Suggest a CLI or GUI approach based on the target audience, ensuring usability without compromising functionality.  
+
+Leverage your expertise in software architecture and file system operations to deliver a scalable, maintainable, and high-performance solution. Your solution should prioritize accuracy, speed, and extensibility for future enhancements.
