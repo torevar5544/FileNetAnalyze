@@ -20,140 +20,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Combined CSS styling
-st.markdown("""
-<style>
-    /* Main header styling */
-    .main-header {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        color: white;
-        text-align: center;
-    }
-    
-    /* Security header styling */
-    .security-header {
-        background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%);
-        padding: 2rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        color: white;
-        text-align: center;
-    }
-    
-    /* Professional button styling */
-    .stButton > button {
-        background: linear-gradient(45deg, #667eea, #764ba2);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.6rem 1.2rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    
-    /* Download button styling */
-    .stDownloadButton > button {
-        background: linear-gradient(45deg, #28a745, #20c997);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.6rem 1.2rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .stDownloadButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    
-    /* Metrics styling */
-    .metric-container {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        border-left: 4px solid #667eea;
-        margin: 0.5rem 0;
-    }
-    
-    /* Network metrics */
-    .network-metric {
-        background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
-        color: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        text-align: center;
-        margin: 0.5rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Security alert styling */
-    .security-alert {
-        background: linear-gradient(45deg, #dc2626, #b91c1c);
-        color: white;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 0.5rem 0;
-        border-left: 4px solid #fbbf24;
-    }
-    
-    /* Anomaly card styling */
-    .anomaly-card {
-        background: #fef2f2;
-        border: 1px solid #fecaca;
-        border-left: 4px solid #dc2626;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 0.5rem 0;
-    }
-    
-    /* Tab styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        border: 1px solid #e9ecef;
-        padding: 0 1rem;
-        font-weight: 600;
-    }
-    
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(45deg, #667eea, #764ba2);
-        color: white;
-    }
-    
-    /* Severity indicators */
-    .severity-high { color: #dc2626; font-weight: bold; }
-    .severity-medium { color: #d97706; font-weight: bold; }
-    .severity-low { color: #059669; font-weight: bold; }
-    
-    /* IP address styling */
-    .ip-address {
-        font-family: monospace;
-        background: #f3f4f6;
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        border: 1px solid #d1d5db;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Initialize session state
+# Initialize session state first
 def initialize_session_state():
     if 'analysis_results' not in st.session_state:
         st.session_state.analysis_results = None
@@ -165,10 +32,264 @@ def initialize_session_state():
         st.session_state.network_analyzer = NetworkTrafficAnalyzer() if SCAPY_AVAILABLE else None
     if 'analysis_mode' not in st.session_state:
         st.session_state.analysis_mode = "File Analysis"
+    if 'theme_choice' not in st.session_state:
+        st.session_state.theme_choice = "Professional"
+
+initialize_session_state()
+
+# Theme selection in sidebar
+with st.sidebar:
+    st.markdown("### 🎨 Theme Selection")
+    theme_choice = st.selectbox(
+        "Choose Interface Theme:",
+        ["Professional", "Spooky Halloween", "Dark Cybersecurity"],
+        index=["Professional", "Spooky Halloween", "Dark Cybersecurity"].index(st.session_state.theme_choice)
+    )
+    st.session_state.theme_choice = theme_choice
+
+# Dynamic CSS based on theme
+if theme_choice == "Spooky Halloween":
+    theme_css = """
+    <style>
+        /* Halloween Spooky Theme */
+        .stApp {
+            background: linear-gradient(180deg, #1a0d2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ff6b35 !important;
+        }
+        
+        .main-header, .security-header {
+            background: linear-gradient(135deg, #ff6b35 0%, #d63031 50%, #2d3436 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            color: #fdcb6e !important;
+            text-align: center;
+            border: 3px solid #ff6b35;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            animation: spooky-glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes spooky-glow {
+            from { box-shadow: 0 0 20px rgba(255, 107, 53, 0.5); }
+            to { box-shadow: 0 0 40px rgba(255, 107, 53, 0.8); }
+        }
+        
+        .stButton > button {
+            background: linear-gradient(45deg, #ff6b35, #d63031) !important;
+            color: #fdcb6e !important;
+            border: 2px solid #ff6b35 !important;
+            font-weight: bold !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        }
+        
+        .stSelectbox > div > div {
+            background-color: #2d3436 !important;
+            color: #fdcb6e !important;
+            border: 2px solid #ff6b35 !important;
+        }
+        
+        .stTextInput > div > div > input {
+            background-color: #2d3436 !important;
+            color: #fdcb6e !important;
+            border: 2px solid #ff6b35 !important;
+        }
+        
+        /* Dark theme text fixes */
+        .stMarkdown, .stText, p, span, div {
+            color: #fdcb6e !important;
+        }
+        
+        .metric-container, .network-metric {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%) !important;
+            color: #fdcb6e !important;
+            border: 2px solid #ff6b35 !important;
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.3) !important;
+        }
+    </style>
+    """
+elif theme_choice == "Dark Cybersecurity":
+    theme_css = """
+    <style>
+        /* Dark Cybersecurity Theme */
+        .stApp {
+            background: linear-gradient(180deg, #0d1117 0%, #161b22 50%, #21262d 100%);
+            color: #00ff41 !important;
+        }
+        
+        .main-header {
+            background: linear-gradient(90deg, #238636 0%, #2ea043 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            color: #00ff41 !important;
+            text-align: center;
+            border: 1px solid #00ff41;
+        }
+        
+        .security-header {
+            background: linear-gradient(90deg, #da3633 0%, #f85149 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            color: #ffffff !important;
+            text-align: center;
+            border: 1px solid #f85149;
+        }
+        
+        .stButton > button {
+            background: linear-gradient(45deg, #238636, #2ea043) !important;
+            color: #00ff41 !important;
+            border: 1px solid #00ff41 !important;
+        }
+        
+        /* Dark theme text fixes */
+        .stMarkdown, .stText, p, span, div, label {
+            color: #00ff41 !important;
+        }
+        
+        .metric-container, .network-metric {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%) !important;
+            color: #00ff41 !important;
+            border: 1px solid #00ff41 !important;
+        }
+    </style>
+    """
+else:
+    theme_css = """
+    <style>
+        /* Professional Theme */
+        .main-header {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .security-header {
+            background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            color: white;
+            text-align: center;
+        }
+        
+        /* Professional button styling */
+        .stButton > button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* Download button styling */
+        .stDownloadButton > button {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stDownloadButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* Metrics styling */
+        .metric-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+            margin: 0.5rem 0;
+        }
+        
+        /* Network metrics */
+        .network-metric {
+            background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 0.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Security alert styling */
+        .security-alert {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border-left: 4px solid #fbbf24;
+        }
+        
+        /* Anomaly card styling */
+        .anomaly-card {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+        
+        /* Tab styling */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 8px;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            height: 50px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            padding: 0 1rem;
+            font-weight: 600;
+        }
+        
+        .stTabs [aria-selected="true"] {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        /* Severity indicators */
+        .severity-high { color: #dc2626; font-weight: bold; }
+        .severity-medium { color: #d97706; font-weight: bold; }
+        .severity-low { color: #059669; font-weight: bold; }
+        
+        /* IP address styling */
+        .ip-address {
+            font-family: monospace;
+            background: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #d1d5db;
+        }
+    </style>
+    """
+
+# Apply the selected theme CSS
+st.markdown(theme_css, unsafe_allow_html=True)
 
 def main():
-    initialize_session_state()
-    
     # Main navigation
     st.sidebar.markdown("## 🔬 Analysis System")
     analysis_mode = st.sidebar.radio(
@@ -176,6 +297,11 @@ def main():
         ["File Analysis", "Network Security Analysis"],
         index=0 if st.session_state.analysis_mode == "File Analysis" else 1
     )
+    
+    # Spooky greeting for Halloween theme
+    if st.session_state.theme_choice == "Spooky Halloween":
+        st.sidebar.markdown("### 🎃 Spooky Analysis Mode")
+        st.sidebar.markdown("*Beware... dark secrets lurk in your files and network traffic!* 👻")
     
     st.session_state.analysis_mode = analysis_mode
     
@@ -186,13 +312,24 @@ def main():
 
 def run_file_analysis():
     """Run file analysis interface"""
-    # File analysis header
-    st.markdown("""
-    <div class="main-header">
-        <h1>📁 File Analysis & Categorization System</h1>
-        <p>Comprehensive file analysis tool for directory scanning, categorization, and duplicate detection</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Dynamic header based on theme
+    if st.session_state.theme_choice == "Spooky Halloween":
+        header_content = """
+        <div class="main-header">
+            <h1>🎃 Haunted File Analysis & Categorization System 👻</h1>
+            <p>Uncover the dark secrets hidden within your file systems... if you dare!</p>
+            <p>🦇 Beware of cursed duplicates and ghostly file categories 🦇</p>
+        </div>
+        """
+    else:
+        header_content = """
+        <div class="main-header">
+            <h1>📁 File Analysis & Categorization System</h1>
+            <p>Comprehensive file analysis tool for directory scanning, categorization, and duplicate detection</p>
+        </div>
+        """
+    
+    st.markdown(header_content, unsafe_allow_html=True)
     
     # Sidebar for file analysis configuration
     with st.sidebar:
@@ -318,13 +455,24 @@ def run_file_analysis():
 
 def run_network_analysis():
     """Run network security analysis interface"""
-    # Security-focused header
-    st.markdown("""
-    <div class="security-header">
-        <h1>🔒 Network Traffic Analysis System</h1>
-        <p>Advanced PCAP analysis for security professionals and network administrators</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Dynamic security header based on theme
+    if st.session_state.theme_choice == "Spooky Halloween":
+        security_header_content = """
+        <div class="security-header">
+            <h1>🔮 Cursed Network Traffic Analysis System 💀</h1>
+            <p>Summon the spirits of packets past to reveal network secrets and malicious phantoms</p>
+            <p>⚡ Channel dark magic to detect supernatural threats in your network realm ⚡</p>
+        </div>
+        """
+    else:
+        security_header_content = """
+        <div class="security-header">
+            <h1>🔒 Network Traffic Analysis System</h1>
+            <p>Advanced PCAP analysis for security professionals and network administrators</p>
+        </div>
+        """
+    
+    st.markdown(security_header_content, unsafe_allow_html=True)
     
     # Check if required dependencies are available
     if not SCAPY_AVAILABLE:
