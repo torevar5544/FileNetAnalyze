@@ -589,7 +589,25 @@ def generate_sample_network_analysis():
                 'ip': '192.168.1.100',
                 'total_packets': 4300,
                 'total_bytes': 3072000,
+                'packets_sent': 2500,
+                'packets_received': 1800,
+                'bytes_sent': 1024000,
+                'bytes_received': 2048000,
+                'domains_accessed': 3,
+                'ports_accessed': 4,
                 'geolocation': {'country': 'United States', 'city': 'San Francisco'}
+            },
+            {
+                'ip': '10.0.0.15',
+                'total_packets': 2100,
+                'total_bytes': 1280000,
+                'packets_sent': 1200,
+                'packets_received': 900,
+                'bytes_sent': 512000,
+                'bytes_received': 768000,
+                'domains_accessed': 2,
+                'ports_accessed': 3,
+                'geolocation': None
             }
         ],
         'port_analysis': {

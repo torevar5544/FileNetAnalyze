@@ -460,11 +460,13 @@ class NetworkTrafficAnalyzer:
             if talker['geolocation'] and talker['geolocation'].get('country'):
                 geo_info = f" [{talker['geolocation']['country']}]"
             
+            domains_count = talker.get('domains_accessed', 0)
+            ports_count = talker.get('ports_accessed', 0)
             report_lines.append(
                 f"{i:2d}. {talker['ip']}{geo_info} - "
                 f"{talker['total_packets']:,} packets, "
                 f"{self._format_bytes(talker['total_bytes'])}, "
-                f"{talker['domains_accessed']} domains"
+                f"{domains_count} domains, {ports_count} ports"
             )
         
         # Port analysis
