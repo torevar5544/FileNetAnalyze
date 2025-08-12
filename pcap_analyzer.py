@@ -8,11 +8,18 @@ import socket
 import re
 
 try:
-    from scapy.all import rdpcap, IP, TCP, UDP, DNS, HTTP, ICMP, ARP
-    from scapy.layers.http import HTTPRequest, HTTPResponse
+    from scapy.all import rdpcap, IP, TCP, UDP, DNS, ICMP, ARP
+    try:
+        from scapy.layers.http import HTTPRequest, HTTPResponse
+        HTTP_AVAILABLE = True
+    except ImportError:
+        HTTP_AVAILABLE = False
+        HTTPRequest = None
+        HTTPResponse = None
     SCAPY_AVAILABLE = True
 except ImportError:
     SCAPY_AVAILABLE = False
+    HTTP_AVAILABLE = False
 
 try:
     import geoip2.database
@@ -140,7 +147,7 @@ class NetworkTrafficAnalyzer:
         if DNS in packet:
             self._analyze_dns_packet(packet)
         
-        if packet.haslayer(HTTPRequest) or packet.haslayer(HTTPResponse):
+        if HTTP_AVAILABLE and (packet.haslayer(HTTPRequest) or packet.haslayer(HTTPResponse)):
             self._analyze_http_packet(packet)
         
         if ICMP in packet:
@@ -222,13 +229,23 @@ class NetworkTrafficAnalyzer:
     
     def _analyze_http_packet(self, packet):
         """Analyze HTTP packet"""
+        if not HTTP_AVAILABLE:
+            return
+            
         self.analysis_results['protocols']['HTTP'] += 1
         
         if packet.haslayer(HTTPRequest):
             http_layer = packet[HTTPRequest]
-            host = http_layer.Host.decode('utf-8') if http_layer.Host else 'Unknown'
-            path = http_layer.Path.decode('utf-8') if http_layer.Path else '/'
-            method = http_layer.Method.decode('utf-8') if http_layer.Method else 'GET'
+            try:
+                host = http_layer.Host.decode('utf-8') if http_layer.Host else 'Unknown'
+                path = http_layer.Path.decode('utf-8') if http_layer.Path else '/'
+                method = http_layer.Method.decode('utf-8') if http_layer.Method else 'GET'
+                user_agent = http_layer.User_Agent.decode('utf-8') if http_layer.User_Agent else 'Unknown'
+            except (AttributeError, UnicodeDecodeError):
+                host = 'Unknown'
+                path = '/'
+                method = 'GET'
+                user_agent = 'Unknown'
             
             self.analysis_results['http_requests'].append({
                 'timestamp': packet.time,
@@ -236,7 +253,7 @@ class NetworkTrafficAnalyzer:
                 'host': host,
                 'path': path,
                 'method': method,
-                'user_agent': http_layer.User_Agent.decode('utf-8') if http_layer.User_Agent else 'Unknown'
+                'user_agent': user_agent
             })
             
             # Associate domain with source IP
