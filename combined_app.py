@@ -37,15 +37,15 @@ def initialize_session_state():
 
 initialize_session_state()
 
-# Theme selection in sidebar
-with st.sidebar:
-    st.markdown("### 🎨 Theme Selection")
-    theme_choice = st.selectbox(
-        "Choose Interface Theme:",
-        ["Professional", "Spooky Halloween", "Dark Cybersecurity"],
-        index=["Professional", "Spooky Halloween", "Dark Cybersecurity"].index(st.session_state.theme_choice)
-    )
-    st.session_state.theme_choice = theme_choice
+# Theme selection at the top of the page
+st.markdown("### 🎨 Theme Selection")
+theme_choice = st.selectbox(
+    "Choose Interface Theme:",
+    ["Professional", "Spooky Halloween", "Dark Cybersecurity"],
+    index=["Professional", "Spooky Halloween", "Dark Cybersecurity"].index(st.session_state.theme_choice),
+    key="theme_selector"
+)
+st.session_state.theme_choice = theme_choice
 
 # Dynamic CSS based on theme
 if theme_choice == "Spooky Halloween":
