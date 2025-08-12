@@ -1,68 +1,89 @@
-# File Analysis & Categorization System
+# Advanced Analysis System: File & Network Security Analysis
 
-A comprehensive file analysis tool built with Streamlit that provides directory scanning, file categorization, and duplicate detection capabilities. The system analyzes file systems to categorize files by type, detect duplicates, and generate detailed reports with visualizations.
+A comprehensive analysis platform built with Streamlit that provides both file system analysis and network security analysis capabilities. The system combines file categorization, duplicate detection, and PCAP network traffic analysis with professional security reporting and threat detection.
 
-![File Analysis System](https://img.shields.io/badge/Python-3.8+-blue.svg)
+![Analysis System](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)
+![Network Security](https://img.shields.io/badge/Security-PCAP_Analysis-red.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 ## Features
 
-### 🔍 **Comprehensive File Analysis**
+### 📁 **Comprehensive File Analysis**
 - **Smart File Categorization**: Automatically categorizes files by type (Documents, Images, Videos, Audio, Code, etc.)
 - **Duplicate Detection**: Identifies duplicate files based on name and size
 - **SMS File Detection**: Specialized detection for SMS-related files with customizable parameters
 - **File Metadata Extraction**: Collects file size, modification dates, and type information
-
-### 📊 **Professional Interface**
-- **Modern UI Design**: Gradient styling with smooth transitions and hover effects
-- **Interactive Visualizations**: Plotly-based charts for data presentation
-- **Real-time Progress Tracking**: Live updates during file scanning operations
-- **Responsive Layout**: Clean, organized interface with collapsible sections
-
-### 📈 **Advanced Reporting**
-- **Multiple Export Formats**: CSV, JSON, and detailed text reports
-- **Comprehensive Statistics**: File counts, size distributions, and category breakdowns
-- **Filtering & Search**: Advanced filtering by category, size, and filename
 - **Storage Efficiency Analysis**: Identifies wasted space from duplicate files
 
-### ⚙️ **Configurable Options**
-- **Flexible Scanning**: Include/exclude subdirectories and hidden files
-- **Size Filtering**: Configurable minimum and maximum file size limits
-- **Custom SMS Detection**: Adjustable file extensions and keyword patterns
-- **Multiple Input Methods**: Directory path input or file upload
+### 🔒 **Advanced Network Security Analysis**
+- **PCAP File Analysis**: Complete packet capture analysis using Scapy
+- **Protocol Categorization**: Classify traffic by HTTP, HTTPS, DNS, TCP, UDP, and more
+- **IP Activity Breakdown**: Detailed analysis of source/destination IP behavior
+- **Anomaly Detection**: Automated detection of port scanning, suspicious connections, and unusual traffic patterns
+- **Geolocation Mapping**: Correlate IP addresses with geographic locations (when GeoIP database available)
+- **Security Threat Assessment**: Identify policy violations, unencrypted traffic, and potential security risks
+
+### 🛡️ **Professional Security Interface**
+- **Security-Focused Design**: Red gradient styling for security analysis mode
+- **Real-time Threat Alerts**: Live security alerts with severity classifications (High/Medium/Low)
+- **Interactive Network Visualizations**: Protocol distribution charts, traffic analysis, and port activity graphs
+- **Comprehensive Security Reports**: Actionable insights for network administrators and security teams
+
+### 📊 **Advanced Reporting & Export**
+- **Multiple Export Formats**: CSV, JSON, and detailed security reports
+- **Executive Summaries**: High-level security summaries for management
+- **Detailed Technical Reports**: In-depth analysis for security professionals
+- **Filtering & Search**: Advanced filtering by IP, protocol, severity, and time ranges
+- **Custom Report Generation**: Tailored reports for specific security requirements
 
 ## Installation
 
 ### Prerequisites
 - Python 3.8 or higher
 - pip package manager
+- Administrative privileges (for network analysis features)
 
 ### Local Setup
 
 1. **Clone or download the project files:**
    ```bash
    git clone <repository-url>
-   cd file-analysis-system
+   cd advanced-analysis-system
    ```
 
 2. **Create a virtual environment (recommended):**
    ```bash
-   python -m venv file_analyzer_env
+   python -m venv analysis_env
    
    # Activate the environment
    # Windows:
-   file_analyzer_env\Scripts\activate
+   analysis_env\Scripts\activate
    # macOS/Linux:
-   source file_analyzer_env/bin/activate
+   source analysis_env/bin/activate
    ```
 
-3. **Install dependencies:**
+3. **Install core dependencies:**
    ```bash
-   pip install streamlit pandas plotly
+   pip install streamlit pandas plotly pathlib
    ```
 
-4. **Create Streamlit configuration:**
+4. **Install network analysis dependencies:**
+   ```bash
+   pip install scapy geoip2 maxminddb requests ipaddress
+   ```
+   
+   **Note for Windows users:** Scapy may require WinPcap or Npcap:
+   - Download and install [Npcap](https://nmap.org/npcap/) for Windows
+   - Restart your command prompt after installation
+
+5. **Optional: Install GeoIP database for location mapping:**
+   ```bash
+   # Download GeoLite2 City database from MaxMind (free registration required)
+   # Place GeoLite2-City.mmdb in the project root directory
+   ```
+
+6. **Create Streamlit configuration:**
    ```bash
    mkdir .streamlit
    ```
@@ -75,23 +96,33 @@ A comprehensive file analysis tool built with Streamlit that provides directory 
    port = 8501
    ```
 
-5. **Run the application:**
+7. **Run the application:**
    ```bash
-   streamlit run app.py
+   # For combined file and network analysis
+   streamlit run combined_app.py
+   
+   # Or run individual components
+   streamlit run app.py              # File analysis only
+   streamlit run network_app.py      # Network analysis only
    ```
 
 The application will open in your browser at `http://localhost:8501`
 
-### Alternative Installation with Requirements File
+### Complete Requirements File
 
 Create `requirements.txt`:
 ```
 streamlit>=1.28.0
 pandas>=2.0.0
 plotly>=5.15.0
+scapy>=2.6.0
+geoip2>=5.1.0
+maxminddb>=2.8.0
+requests>=2.31.0
+ipaddress>=1.0.23
 ```
 
-Install dependencies:
+Install all dependencies:
 ```bash
 pip install -r requirements.txt
 ```
@@ -101,14 +132,35 @@ pip install -r requirements.txt
 ### Getting Started
 
 1. **Launch the application** using the installation instructions above
-2. **Configure analysis options** in the sidebar:
+2. **Select analysis mode** from the sidebar:
+   - **File Analysis**: For directory scanning and file categorization
+   - **Network Security Analysis**: For PCAP file analysis and security assessment
+
+### File Analysis Mode
+
+1. **Configure analysis options** in the sidebar:
    - Analysis scope (subdirectories, hidden files)
    - File size filters
    - SMS detection parameters
-3. **Choose input method**:
+2. **Choose input method**:
    - Upload files directly, or
    - Enter a directory path for analysis
-4. **Click "Analyze"** to start the file analysis process
+3. **Click "Analyze"** to start the file analysis process
+
+### Network Security Analysis Mode
+
+1. **Configure security analysis options** in the sidebar:
+   - Enable anomaly detection
+   - Set security thresholds
+   - Configure geolocation analysis
+2. **Upload PCAP file**:
+   - Support for .pcap, .pcapng, and .cap files
+   - Files captured with Wireshark, tcpdump, or similar tools
+3. **Review security analysis**:
+   - Protocol distribution and traffic patterns
+   - Security alerts and anomalies
+   - IP activity and geolocation data
+   - Port analysis and suspicious behavior detection
 
 ### Analysis Options
 
@@ -133,14 +185,18 @@ The system provides multiple export formats:
 ## File Structure
 
 ```
-file-analysis-system/
-├── app.py                 # Main Streamlit application
-├── file_analyzer.py       # Core analysis engine
+advanced-analysis-system/
+├── combined_app.py        # Main combined analysis application
+├── app.py                 # File analysis application
+├── network_app.py         # Network security analysis application
+├── file_analyzer.py       # File analysis engine
+├── pcap_analyzer.py       # Network traffic analysis engine
 ├── utils.py              # Utility functions and helpers
 ├── .streamlit/
 │   └── config.toml       # Streamlit configuration
 ├── requirements.txt      # Python dependencies
-└── README.md            # This file
+├── README.md            # This documentation
+└── replit.md           # Project architecture documentation
 ```
 
 ## Configuration
@@ -173,7 +229,17 @@ Customize SMS file detection in the sidebar:
 - **Extensions**: Common SMS formats (xml, csv, json, txt, db, sqlite)
 - **Keywords**: Filename patterns (sms, message, text, conversation, chat)
 
+### Network Security Configuration
+
+Configure network analysis parameters:
+- **Anomaly Detection**: Enable/disable automatic threat detection
+- **Security Thresholds**: Set packet count thresholds for alerts
+- **Port Scan Detection**: Configure sensitivity for port scanning detection
+- **Geolocation Analysis**: Enable IP geolocation mapping (requires GeoIP database)
+
 ## Analysis Categories
+
+### File Categories
 
 The system automatically categorizes files into:
 
@@ -190,37 +256,83 @@ The system automatically categorizes files into:
 - **Data**: JSON, XML, YAML, YML, SQL, DB, SQLite
 - **Other**: Files not matching the above categories
 
+### Network Protocol Analysis
+
+The system analyzes and categorizes network protocols:
+
+- **Application Layer**: HTTP, HTTPS, DNS, FTP, SMTP, POP3, IMAP
+- **Transport Layer**: TCP, UDP with port analysis
+- **Network Layer**: IP traffic analysis with source/destination mapping
+- **Security Protocols**: SSH, TLS/SSL, VPN traffic identification
+- **Suspicious Activity**: Port scanning, unusual connections, high-volume traffic
+
 ## Features in Detail
 
-### Duplicate Detection
+### File Analysis Features
+
+#### Duplicate Detection
 - Identifies files with identical names and sizes
 - Calculates wasted storage space
 - Provides detailed duplicate file listings
 - Shows potential storage savings
 
-### Progress Tracking
+#### Progress Tracking
 - Real-time progress bars during analysis
 - Status updates showing current file being processed
 - Estimated completion times for large directories
 
-### Interactive Visualizations
+#### Interactive Visualizations
 - Pie charts showing file type distribution
 - Bar charts displaying storage usage by category
 - Color-coded visualizations for easy interpretation
 
+### Network Security Features
+
+#### Traffic Analysis
+- **Protocol Breakdown**: Detailed analysis of network protocols (TCP, UDP, HTTP, DNS, etc.)
+- **IP Activity Mapping**: Complete source/destination IP analysis with traffic volumes
+- **Session Tracking**: Monitor connection attempts, duration, and data transfer
+- **Port Analysis**: Identify open ports, services, and potential vulnerabilities
+
+#### Security Threat Detection
+- **Anomaly Detection**: Automated detection of unusual network behavior
+- **Port Scanning Alerts**: Identify potential reconnaissance activities
+- **High Volume Traffic**: Flag excessive data transfers or connection attempts
+- **Suspicious Protocol Usage**: Detect potentially malicious network activity
+
+#### Geolocation Intelligence
+- **IP Geolocation**: Map IP addresses to geographic locations
+- **Country-based Analysis**: Identify traffic origins and destinations
+- **Network Topology Insights**: Understand network communication patterns
+
+#### Security Reporting
+- **Executive Summaries**: High-level security assessment for management
+- **Technical Reports**: Detailed findings for security professionals
+- **Actionable Recommendations**: Specific steps to improve network security
+- **Compliance Documentation**: Reports suitable for security audits
+
 ## Performance Considerations
 
+### File Analysis Performance
 - **Large Directories**: Analysis time scales with file count
 - **Memory Usage**: Efficient processing for large file systems
 - **Network Drives**: Local storage recommended for best performance
 - **File Permissions**: Requires read access to analyzed directories
 
+### Network Analysis Performance
+- **PCAP File Size**: Large packet captures may require significant processing time
+- **Memory Requirements**: Network analysis can be memory-intensive for large captures
+- **Processing Power**: Complex packet analysis benefits from faster CPUs
+- **Network Permissions**: Some network analysis features may require administrative privileges
+
 ## Troubleshooting
 
 ### Common Issues
 
+#### General Issues
+
 **Permission Denied:**
-- Ensure read permissions for the target directory
+- Ensure read permissions for the target directory/files
 - Run with appropriate user privileges
 - Check if directory contains protected system files
 
@@ -229,16 +341,39 @@ The system automatically categorizes files into:
 - Check for other running Streamlit applications
 - Use `netstat` or `lsof` to identify port usage
 
+#### File Analysis Issues
+
 **Large Directory Analysis:**
 - Consider using file size filters for initial analysis
 - Break large directories into smaller chunks
 - Monitor system memory usage during analysis
 
-### Error Messages
-
+**Error Messages:**
 - **"Directory not found"**: Verify the path exists and is accessible
 - **"Invalid directory path"**: Ensure the path points to a directory, not a file
 - **"No files found"**: Check if directory contains files matching your filters
+
+#### Network Analysis Issues
+
+**Scapy Installation Problems:**
+- **Windows**: Install Npcap from https://nmap.org/npcap/
+- **Linux**: May require `sudo apt-get install python3-scapy`
+- **macOS**: Use `brew install scapy` or pip installation
+
+**PCAP File Issues:**
+- **"Cannot read PCAP file"**: Verify file is not corrupted and is a valid packet capture
+- **"Permission denied"**: Ensure read access to PCAP files
+- **"Unsupported format"**: Check file extension (.pcap, .pcapng, .cap supported)
+
+**GeoIP Database Issues:**
+- **Missing location data**: Download GeoLite2-City.mmdb from MaxMind
+- **"Database not found"**: Place GeoIP database in project root directory
+- **Outdated location data**: Update GeoIP database regularly for accuracy
+
+**Network Analysis Performance:**
+- **Slow analysis**: Large PCAP files require significant processing time
+- **Memory issues**: Close other applications when analyzing large packet captures
+- **Incomplete analysis**: Ensure sufficient disk space for temporary processing files
 
 ## Contributing
 

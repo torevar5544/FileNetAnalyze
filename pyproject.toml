@@ -4,7 +4,12 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.11"
 dependencies = [
+    "geoip2>=5.1.0",
+    "ipaddress>=1.0.23",
+    "maxminddb>=2.8.2",
     "pandas>=2.3.1",
     "plotly>=6.2.0",
+    "requests>=2.32.4",
+    "scapy>=2.6.1",
     "streamlit>=1.48.0",
 ]
