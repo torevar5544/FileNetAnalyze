@@ -48,8 +48,8 @@ A comprehensive analysis platform built with Streamlit that provides both file s
 
 1. **Clone or download the project files:**
    ```bash
-   git clone <repository-url>
-   cd advanced-analysis-system
+   git clone https://github.com/torevar5544/FileNetAnalyze.git
+   cd FileNetAnalyze
    ```
 
 2. **Create a virtual environment (recommended):**
@@ -185,7 +185,7 @@ The system provides multiple export formats:
 ## File Structure
 
 ```
-advanced-analysis-system/
+FileNetAnalyzem/
 ├── combined_app.py        # Main combined analysis application
 ├── app.py                 # File analysis application
 ├── network_app.py         # Network security analysis application
